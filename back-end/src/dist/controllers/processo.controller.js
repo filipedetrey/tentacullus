@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const controller_1 = require("../common/controller");
 const processo_schema_1 = require("../schemas/processo.schema");
 const restify_errors_1 = require("restify-errors");
-const job_schema_1 = require("../schemas/job.schema");
 class ProcessoContoller extends controller_1.Controller {
     constructor() {
         super(processo_schema_1.Processo);
@@ -28,7 +27,6 @@ class ProcessoContoller extends controller_1.Controller {
                 .catch(next);
         };
         this.deleteEtapa = (req, res, next) => {
-            job_schema_1.Job.etapaDeletada(req.params.etapaId);
             processo_schema_1.Processo.deleteEtapaFromProcesso(req.params.processoId, req.params.etapaId)
                 .then(this.render(res, next))
                 .catch(next);

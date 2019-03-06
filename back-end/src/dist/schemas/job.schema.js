@@ -10,10 +10,10 @@ exports.interacaoSchema = new mongoose.Schema({
     editado: { type: Date, required: false }
 });
 exports.jobSchema = new mongoose.Schema({
-    nome: { type: String, required: [true, "Nome é obrigatório"] },
+    nome: { type: String, required: [true, "Nome é obrigatório."] },
     campanha: { type: mongoose.Schema.Types.ObjectId, ref: "Campanha", required: [true, "Campanha é obrigatório."] },
     processo: { type: mongoose.Schema.Types.ObjectId, ref: "Processo", required: [true, "Processo é obrigatório."] },
-    etapaAtual: { type: mongoose.Schema.Types.ObjectId, ref: "Processo.etapas", required: [true, "Etapa é obrigatório."] },
+    etapaAtual: { type: mongoose.Schema.Types.ObjectId, ref: "Processo.etapas", required: false },
     envolvidos: { type: [mongoose.Schema.Types.ObjectId], ref: "Funcionario", required: false, default: [] },
     status: { type: mongoose.Schema.Types.ObjectId, ref: "Status", required: false, default: null },
     briefing: { type: String, required: false, select: false },
@@ -23,7 +23,7 @@ exports.jobSchema = new mongoose.Schema({
 });
 exports.interacaoSchema.plugin(uniqueValidator, { message: 'deve ser único.' });
 exports.jobSchema.plugin(uniqueValidator, { message: 'deve ser único.' });
-exports.jobSchema.statics.etapaDeletada = function (processo, nextEtapa) {
+exports.jobSchema.statics.etapaDeletada = function (processo, etapaAtual, nextEtapa) {
     return this.find({ "processo": processo })
         .select("etapaAtual processo")
         .exec()
@@ -31,7 +31,7 @@ exports.jobSchema.statics.etapaDeletada = function (processo, nextEtapa) {
         var retorno = { affecteds: [], _n: 0 };
         if (jobs) {
             jobs.forEach(job => {
-                if (job.etapaAtual === null) {
+                if (job.etapaAtual === etapaAtual) {
                     job.etapaAtual = nextEtapa;
                     job.save();
                     retorno.affecteds.push(job);

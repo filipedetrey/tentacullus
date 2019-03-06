@@ -46,19 +46,17 @@ processoSchema.statics.deleteEtapaFromProcesso = function (processo: string, eta
         .exec()
         .then((p: Processo) => {
             if (p) {
-                var etapaIndex = p.etapas.map(e => e.id).indexOf(etapa)
-                if (etapaIndex > -1) {
-                    p.etapas.splice(etapaIndex, 1)
-                    p.save()
+                while (p.etapas.map(e => e.id).indexOf(etapa) !== -1) {
+                    var etapaIndex = p.etapas.map(e => e.id).indexOf(etapa)
                     if (etapaIndex > 0)
-                        Job.etapaDeletada(p._id, p.etapas[etapaIndex - 1]._id)
+                        Job.etapaDeletada(p._id, p.etapas[etapaIndex]._id, p.etapas[etapaIndex - 1]._id)
                     else
-                        Job.etapaDeletada(p._id, null)
-                    return p
+                        Job.etapaDeletada(p._id, p.etapas[etapaIndex]._id, null)
+                    p.etapas.splice(etapaIndex, 1)
                 }
-                else {
-                    throw new NotFoundError("Etapa não encontrada")
-                }
+                p.save()
+                return p
+
             }
             else {
                 throw new NotFoundError("Processo não encontrado")
@@ -75,17 +73,17 @@ processoSchema.statics.etapaDeletada = function () {
             if (ps) {
                 var retorno = { affected: [], _n: 0 }
                 ps.forEach(processo => {
-                    var etapaIndex = processo.etapas.map(e => e.etapa).indexOf(null)
-                    if (etapaIndex > -1) {
+                    while (processo.etapas.map(e => e.etapa).indexOf(null) !== -1) {
+                        var etapaIndex = processo.etapas.map(e => e.etapa).indexOf(null)
                         processo.etapas.splice(etapaIndex, 1)
                         retorno.affected.push(processo)
                         retorno._n++
-                        processo.save()
                         if (etapaIndex > 0)
-                            Job.etapaDeletada(processo._id, processo.etapas[etapaIndex - 1]._id)
+                            Job.etapaDeletada(processo._id, processo.etapas[etapaIndex]._id, processo.etapas[etapaIndex - 1]._id)
                         else
-                            Job.etapaDeletada(processo._id, null)
+                            Job.etapaDeletada(processo._id, processo.etapas[etapaIndex]._id, null)
                     }
+                    processo.save()
                 })
                 return retorno
             }

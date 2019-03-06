@@ -52,7 +52,6 @@ class ProcessoContoller extends Controller<Processo>{
     }
 
     deleteEtapa = (req, res, next) => {
-        Job.etapaDeletada(req.params.etapaId)
         Processo.deleteEtapaFromProcesso(req.params.processoId, req.params.etapaId)
             .then(this.render(res, next))
             .catch(next)

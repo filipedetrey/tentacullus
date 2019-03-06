@@ -6,7 +6,6 @@ import { Cliente } from './cliente.schema'
 import { Status } from './status.schema'
 import { Processo } from './processo.schema';
 import { Etapa } from './etapa.schema';
-import { NotFoundError } from 'restify-errors';
 
 export const interacaoSchema = new mongoose.Schema({
     texto: { type: String, required: [true, "Texto é obrigatório."], minlength: 1 },
@@ -17,10 +16,10 @@ export const interacaoSchema = new mongoose.Schema({
 })
 
 export const jobSchema = new mongoose.Schema({
-    nome: { type: String, required: [true, "Nome é obrigatório"] },
+    nome: { type: String, required: [true, "Nome é obrigatório."] },
     campanha: { type: mongoose.Schema.Types.ObjectId, ref: "Campanha", required: [true, "Campanha é obrigatório."] },
     processo: { type: mongoose.Schema.Types.ObjectId, ref: "Processo", required: [true, "Processo é obrigatório."] },
-    etapaAtual: { type: mongoose.Schema.Types.ObjectId, ref: "Processo.etapas", required: [true, "Etapa é obrigatório."] },
+    etapaAtual: { type: mongoose.Schema.Types.ObjectId, ref: "Processo.etapas", required: false },
     envolvidos: { type: [mongoose.Schema.Types.ObjectId], ref: "Funcionario", required: false, default: [] },
     status: { type: mongoose.Schema.Types.ObjectId, ref: "Status", required: false, default: null },
     briefing: { type: String, required: false, select: false },
@@ -32,7 +31,11 @@ export const jobSchema = new mongoose.Schema({
 interacaoSchema.plugin(uniqueValidator, { message: 'deve ser único.' })
 jobSchema.plugin(uniqueValidator, { message: 'deve ser único.' })
 
-jobSchema.statics.etapaDeletada = function (processo: mongoose.Types.ObjectId, nextEtapa: mongoose.Types.ObjectId) {
+jobSchema.statics.etapaDeletada = function (
+    processo: mongoose.Types.ObjectId,
+    etapaAtual: mongoose.Types.ObjectId,
+    nextEtapa: mongoose.Types.ObjectId
+) {
     return this.find({ "processo": processo })
         .select("etapaAtual processo")
         .exec()
@@ -40,7 +43,7 @@ jobSchema.statics.etapaDeletada = function (processo: mongoose.Types.ObjectId, n
             var retorno = { affecteds: [], _n: 0 }
             if (jobs) {
                 jobs.forEach(job => {
-                    if (job.etapaAtual === null) {
+                    if (job.etapaAtual === etapaAtual) {
                         job.etapaAtual = nextEtapa
                         job.save()
                         retorno.affecteds.push(job)
@@ -53,7 +56,7 @@ jobSchema.statics.etapaDeletada = function (processo: mongoose.Types.ObjectId, n
 }
 
 export interface JobModel extends mongoose.Model<Job> {
-    etapaDeletada(processo: mongoose.Types.ObjectId, nextEtapa: mongoose.Types.ObjectId)
+    etapaDeletada(processo: mongoose.Types.ObjectId, etapaAtual: mongoose.Types.ObjectId, nextEtapa: mongoose.Types.ObjectId)
 }
 
 export const Job = mongoose.model<Job, JobModel>("Job", jobSchema)

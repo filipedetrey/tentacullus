@@ -57,6 +57,9 @@ export class ProcessoComponent implements OnInit, OnDestroy {
           this.websocket.onMessage.subscribe(message => {
             if (message === this.service.service)
               this.carregarProcesso(routeParams.id)
+            else if (message === this.etapaService.service) {
+              this.carregarProcesso(routeParams.id)
+            }
           })
         )
       } else { this.button = "Criar" }
