@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row mb-3 mt-3 align-items-center">
+    <div class="col col-9">
+      <h3>Processo</h3>
+      <h5>Crie ou edite um processo para determinar o comportamento de um job.</h5>
+    </div>
+    <div class="col col-3 text-right">
+      <button mat-mini-fab class="bg-laranja" [routerLink]="'/configuracoes/processos'">
+        <em class="fas fa-arrow-left text-white"></em>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-12">
+      <div class="card w-100">
+        <div class="card-body row">
+          <div class="col col-12 form-group">
+            <label><span class="text-danger mr-1">*</span>Nome</label>
+            <input class="form-control mb-1" placeholder="Nome do Processo" [(ngModel)]="processo.nome"
+              [class.border-danger]="errors.nome && processo.nome === errors.nome.value">
+            <span class="text-danger"
+              *ngIf="errors.nome && processo.nome === errors.nome.value">{{errors.nome.message}}</span>
+          </div>
+          <div class="col col-12 form-group">
+            <label><span class="text-danger mr-1">*</span>Etapas</label>
+            <label class="float-right" (click)="modal.show()">Adicionar etapa</label>
+            <div class="col col-12 d-flex mt-3 bg-azul">
+              <div class="col col-2 col-md-1"></div>
+              <div class="col col-10 col-md-11 d-flex">
+                <div class="col col-2">Posição</div>
+                <div class="col col-8 text-center">Nome</div>
+                <div class="col col-2">Ações</div>
+              </div>
+            </div>
+            <div class="col col-12 bg-azul-claro text-center" *ngIf="!processo.etapas || processo.etapas.length < 1">
+              Nenhuma etapa encontrada.
+            </div>
+            <div class="w-100" [sortablejs]="processo.etapas" [sortablejsOptions]="sortableOptions">
+              <div class="col col-12 d-flex bg-azul-claro" *ngFor="let etapa of processo.etapas; let i = index">
+                <div class="col col-2 col-md-1">
+                  <mat-icon matListIcon class="handle" (mousedown)="$event.stopPropagation()"
+                    (touchstart)="$event.stopPropagation()">
+                    drag_handle</mat-icon>
+                </div>
+                <div class="col col-10 col-md-11 d-flex">
+                  <div class="col col-2">{{i + 1}}</div>
+                  <div class="col col-8 text-center">{{etapa.etapa.nome}}</div>
+                  <div class="col col-2">
+                    <i class="fa fa-trash action-icons" (click)="setDelete(etapa)" matTooltip="Deletar"
+                      #pop="bs-popover" [outsideClick]="true" [popover]="deletePopover"
+                      popoverTitle="Você tem certeza ?"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col col-12 form-group text-right">
+            <button mat-flat-button class="bg-laranja" (click)="criarOuEditar()">{{button}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div #modal="bs-modal" bsModal class="modal fade" [config]="{ backdrop: 'static' }">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex row w-100">
+          <div class="col col-10">
+            <h4 class="modal-title">Nova Etapa</h4>
+            <p class="mb-0">Adicione uma etapa ao processo.</p>
+          </div>
+          <button type="button" class="close" aria-label="Close" (click)="modal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col col-12 form-group">
+            <label [class.text-danger]="create_error && !create_etapa"><span
+                class="text-danger mr-1">*</span>Etapa</label>
+            <ng-select [items]="etapas" [closeOnSelect]="true" [hideSelected]="true" bindLabel="nome"
+              placeholder="Selecione uma etapa" [(ngModel)]="create_etapa">
+            </ng-select>
+            <label *ngIf="create_error && !create_etapa" class="text-danger mt-2 mb-2">Selecione uma etapa.</label>
+          </div>
+          <div class="col col-12 form-group">
+            <button mat-flat-button class="float-right bg-laranja" (click)="novaEtapa()">Criar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deletePopover>
+  <div class="mb-3">
+    Todos os jobs que implementam esse processo e estão nessa etapa serão movidos para a etapa anterior.
+  </div>
+  <div class="text-center">
+    <button class="bg-azul mr-2" mat-flat-button (click)="closePopovers()">Cancelar</button>
+    <button class="bg-laranja" mat-flat-button (click)="deleteEtapa()">Deletar</button>
+  </div>
+</ng-template>

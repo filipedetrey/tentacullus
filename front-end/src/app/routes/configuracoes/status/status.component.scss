@@ -1,0 +1,56 @@
+@import "../../../shared/styles/app/variables.scss";
+
+.card {
+  border-radius: 0;
+  .card-body {
+    .handle {
+      cursor: pointer;
+    }
+  }
+}
+
+.colorBlock {
+  position: relative;
+  min-height: 40px;
+  .colorShow {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: absolute;
+    left: 15px;
+    top: calc(calc(100% - 25px) / 2);
+  }
+  .colorShowText {
+    height: 25px;
+    left: 45px;
+    position: absolute;
+    top: calc(calc(100% - 20px) / 2);
+  }
+}
+
+.colorGroup {
+  position: relative;
+  .colorShow {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: absolute;
+    left: 35px;
+    top: 52%;
+  }
+  .colorPicker {
+    padding-left: 60px;
+    height: 40px;
+  }
+}
+
+.action-icons {
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+  &:hover,
+  &:active,
+  &:focus {
+    transform: scale(1.3);
+    color: $laranja;
+  }
+}

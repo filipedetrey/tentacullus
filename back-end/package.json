@@ -1,0 +1,40 @@
+{
+  "name": "tentacullus-api",
+  "version": "1.0.0",
+  "description": "API do Tentacullus",
+  "main": "src/dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "start": "nodemon src/dist/main.js",
+    "compileAlways": "cd src && tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vitin36/tentacullus-api.git"
+  },
+  "author": "Vitor Hugo Ferreira Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vitin36/tentacullus-api/issues"
+  },
+  "homepage": "https://github.com/Vitin36/tentacullus-api#readme",
+  "dependencies": {
+    "mongoose": "^5.4.10",
+    "mongoose-unique-validator": "^2.0.2",
+    "restify": "^7.7.0",
+    "restify-cors-middleware": "1.1.0",
+    "restify-errors": "^6.1.1",
+    "socket.io": "^2.2.0",
+    "typescript": "^3.3.1",
+    "yargs": "^12.0.5"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.3.12",
+    "@types/mongoose-unique-validator": "^1.0.1",
+    "@types/node": "^10.12.21",
+    "@types/restify": "^7.2.7",
+    "@types/restify-errors": "^4.3.3",
+    "@types/socket.io": "^2.1.2",
+    "@types/yargs": "^12.0.8"
+  }
+}

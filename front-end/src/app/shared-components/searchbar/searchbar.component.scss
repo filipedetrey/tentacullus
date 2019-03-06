@@ -1,0 +1,16 @@
+.form-group {
+  div {
+    input {
+      border-radius: 10px;
+      padding-left: 30px;
+      height: 2.1875rem !important;
+    }
+    i {
+      position: absolute;
+      left: 10px;
+      top: calc(2.1875rem - 25px);
+    }
+    position: relative;
+  }
+  margin-bottom: 0;
+}

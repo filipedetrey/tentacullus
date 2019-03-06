@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row mb-3 mt-3 align-items-center">
+    <div class="col col-9">
+      <h3>Etapa</h3>
+      <h5>Crie ou edite uma etapa para organizar especificamente cada tarefa dos seus jobs.</h5>
+    </div>
+    <div class="col col-3 text-right">
+      <button mat-mini-fab class="bg-laranja" [routerLink]="'/configuracoes/etapas'">
+        <em class="fas fa-arrow-left text-white"></em>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-12">
+      <div class="card w-100">
+        <div class="card-body row">
+          <div class="col col-12 form-group">
+            <label><span class="text-danger mr-1">*</span>Nome</label>
+            <input class="form-control mb-1" [(ngModel)]="etapa.nome" placeholder="Nome da Etapa"
+              [class.border-danger]="errors.nome && etapa.nome === errors.nome.value">
+            <span class="text-danger "
+              *ngIf="errors.nome && etapa.nome === errors.nome.value">{{errors.nome.message}}</span>
+          </div>
+          <div class="col col-12 form-group">
+            <label>Envolvidos</label>
+            <ng-select [items]="funcionarios" [multiple]="true" [closeOnSelect]="false" [multiple]="true"
+              [closeOnSelect]="false" [hideSelected]="true" bindValue="_id" bindLabel="nomeFantasia"
+              placeholder="Selecione um funcionário" [(ngModel)]="etapa.envolvidos">
+            </ng-select>
+          </div>
+          <div class="col col-6 col-lg-3 form-group text-center">
+            <label>Notificar envolvidos quando entrar ?</label><br>
+            <mat-slide-toggle [color]="'primary'" [(ngModel)]="etapa.notificarEnvolvidosEntrar"></mat-slide-toggle>
+          </div>
+          <div class="col col-6 col-lg-3 form-group text-center">
+            <label>Notificar envolvidos quando finalizar ?</label><br>
+            <mat-slide-toggle [color]="'primary'" [(ngModel)]="etapa.notificarEnvolvidosSair"></mat-slide-toggle>
+          </div>
+          <div class="col col-6 col-lg-3 form-group text-center">
+            <label>Notificar cliente quando entrar ?</label><br>
+            <mat-slide-toggle [color]="'primary'" [(ngModel)]="etapa.notificarClienteEntrar"></mat-slide-toggle>
+          </div>
+          <div class="col col-6 col-lg-3 form-group text-center">
+            <label>Notificar cliente quando finalizar ?</label><br>
+            <mat-slide-toggle [color]="'primary'" [(ngModel)]="etapa.notificarClienteSair"></mat-slide-toggle>
+          </div>
+          <div class="col col-12 form-group text-right">
+            <button mat-flat-button class="bg-laranja" (click)="criarOuEditar()">{{button}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

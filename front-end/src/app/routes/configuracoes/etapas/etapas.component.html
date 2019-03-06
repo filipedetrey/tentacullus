@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row mt-3 mb-3">
+    <div class="col col-12 col-lg-8 text-left">
+      <h3>Etapas</h3>
+      <p>Gerencie as etapas que serão utilizadas em seus processos.
+        Etapas são utilizadas para determinar certas tarefas em seus jobs, dizer quais funcionários estão envolvidos
+        nesta tarefa e se os funcionários e/ou clientes devem ser notificados no término da mesma.
+      </p>
+    </div>
+    <div class="col col-12 col-lg-4">
+      <searchbar></searchbar>
+    </div>
+  </div>
+  <div class="row mt-3 mb-3">
+    <div class="col col-12 col-lg-2 offset-lg-10 text-right">
+      <button mat-flat-button class="bg-laranja w-100" [routerLink]="'/configuracoes/etapas/nova'">Nova Etapa</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-12">
+      <div class="card mb-0">
+        <div class="card-body row d-flex">
+          <div class="col col-12 row d-flex">
+            <div class="col col-6 col-md-7 offset-md-1">Nome</div>
+            <div class="col col-6 col-md-4 text-center">Ações</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-12" *ngIf="etapas.length < 1">
+      <div class="card mb-0">
+        <div class="card-body row d-flex">
+          <div class="col col-12 text-center">
+            Nenhuma etapa encontrada.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-12">
+      <div [sortablejs]="etapas" [sortablejsOptions]="sortableOptions">
+        <div mat-list-item *ngFor="let b of etapas" class="card mb-0">
+          <div class="card-body row d-flex">
+            <div class="col col-12 row d-flex">
+              <div class="col col-6 col-md-7 offset-md-1">{{b.nome}}</div>
+              <div class="col col-6 col-md-4 text-center">
+                <i class="fa fa-pencil-alt mr-3 action-icons" [routerLink]="'/configuracoes/etapas/' + b._id"
+                  matTooltip="Editar"></i>
+                <i class="fa fa-trash action-icons" (click)="setDelete(b)" #pop="bs-popover" [outsideClick]="true"
+                  [popover]="deletePopover" popoverTitle="Você tem certeza ?" matTooltip="Deletar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deletePopover>
+  <div class="mb-3">
+    Essa etapa será removida de todos os processos que à utilizam, e todos os jobs que estiverem nesta etapa voltarão
+    para a anterior.
+  </div>
+  <div class="text-center">
+    <button class="bg-azul mr-2" mat-flat-button (click)="closePopovers()">Cancelar</button>
+    <button class="bg-laranja" mat-flat-button (click)="deleteEtapa()">Deletar</button>
+  </div>
+</ng-template>

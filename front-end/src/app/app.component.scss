@@ -1,0 +1,92 @@
+@import "./shared/styles/app/material/colors.scss";
+
+/deep/ .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: rgba(236, 101, 19, 0.6);
+}
+/deep/ .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: $laranja;
+}
+
+/deep/ .mat-pseudo-checkbox-checked {
+  background: $laranja !important;
+}
+
+/deep/ .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: $laranja !important;
+}
+
+/deep/ .mat-form-field.mat-focused .mat-form-field-label {
+  color: $laranja !important;
+}
+
+/deep/ .mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: $laranja !important;
+}
+
+/deep/ .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: $laranja !important;
+}
+
+/deep/ .mat-input-element {
+  caret-color: auto !important;
+}
+
+/deep/ .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: $laranja !important;
+}
+
+/deep/ .ng-select-single {
+  .ng-select-container {
+    border: 1px solid #dde6e9 !important;
+    .ng-value-container {
+      .ng-value {
+      }
+    }
+  }
+}
+
+/deep/.ng-select-multiple {
+  .ng-select-container {
+    border: 1px solid #dde6e9 !important;
+    .ng-value-container {
+      .ng-value {
+        .ng-value-icon.left {
+          border-right: 1px solid $laranja !important;
+        }
+        .ng-value-icon {
+          color: #fff;
+          font-size: 0.875rem;
+          background-color: $laranja;
+          opacity: 0.8;
+          &:hover {
+            background-color: $laranja !important;
+            opacity: 0.5;
+          }
+        }
+        .ng-value-label {
+          color: #fff;
+          font-size: 0.875rem;
+          font-size: 0.875rem;
+          background-color: $laranja;
+        }
+      }
+    }
+  }
+}
+
+/deep/ .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: rgba(236, 101, 19, 0.3);
+  color: #fff;
+}
+
+/deep/ .ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+  box-shadow: none;
+  border: 1px solid #b0bec5 !important;
+}
+
+/deep/ .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+  color: #fff !important;
+  background-color: $laranja !important;
+}
